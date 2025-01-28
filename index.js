@@ -8,7 +8,6 @@ const { exec } = require("child_process");
 const app = express();
 
 const allowedOrigins = [
-  "http://localhost:5173", // Local development
   "https://front-34ee.onrender.com", // Deployed frontend URL
 ];
 
