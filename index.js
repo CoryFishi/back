@@ -31,7 +31,7 @@ mongoose
             callback(new Error("Not allowed by CORS"));
           }
         },
-        credentials: true, // Allow cookies if needed
+        credentials: true,
       })
     );
     app.use("/", require("./routes/authRoutes"));
