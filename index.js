@@ -7,6 +7,11 @@ const cookieParser = require("cookie-parser");
 const { exec } = require("child_process");
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:5173", // Local development
+  "https://front-34ee.onrender.com", // Deployed frontend URL
+];
+
 mongoose
   .connect(process.env.MONGO_URL)
   .then(() => {
@@ -17,7 +22,18 @@ mongoose
     app.use(cookieParser());
     app.use(bodyParser.json());
     app.use(express.urlencoded({ extended: false }));
-
+    app.use(
+      cors({
+        origin: (origin, callback) => {
+          if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+          } else {
+            callback(new Error("Not allowed by CORS"));
+          }
+        },
+        credentials: true, // Allow cookies if needed
+      })
+    );
     app.use("/", require("./routes/authRoutes"));
 
     const port = process.env.PORT;
